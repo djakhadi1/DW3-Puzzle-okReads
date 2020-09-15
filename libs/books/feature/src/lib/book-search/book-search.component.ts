@@ -8,6 +8,7 @@ import {
   ReadingListBook,
   UndoremoveFromReadingList,
   searchBooks,
+  init,
 } from '@tmo/books/data-access';
 import { FormBuilder } from '@angular/forms';
 import { Book } from '@tmo/shared/models';
@@ -48,12 +49,14 @@ export class BookSearchComponent implements OnInit, OnDestroy {
   addBookToReadingList(book: Book) {
     this.store.dispatch(addToReadingList({ book }));
     const snackBarRef = this._snackBar.open('Added', 'Undo', {
-      duration: 5000, 
-      horizontalPosition: 'right', verticalPosition: 'bottom'
+      duration: 5000,
+      horizontalPosition: 'right',
+      verticalPosition: 'bottom',
     });
     snackBarRef.onAction().subscribe(() => {
       this.store.dispatch(UndoAddToReadingList({ book }));
     });
+    this.store.dispatch(init());
   }
 
   searchExample() {

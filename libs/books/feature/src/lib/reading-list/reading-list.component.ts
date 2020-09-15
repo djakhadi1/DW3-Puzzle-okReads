@@ -24,11 +24,13 @@ export class ReadingListComponent {
     this.store.dispatch(removeFromReadingList({ item }));
     const snackBarRef = this._snackBar.open('Removed', 'Undo', {
       duration: 5000,
-      horizontalPosition: 'right', verticalPosition: 'bottom'
+      horizontalPosition: 'right',
+      verticalPosition: 'bottom',
     });
     snackBarRef.onAction().subscribe(() => {
       this.store.dispatch(UndoremoveFromReadingList({ item }));
     });
+    this.store.dispatch(init());
   }
 
   finishReadingList(item) {
