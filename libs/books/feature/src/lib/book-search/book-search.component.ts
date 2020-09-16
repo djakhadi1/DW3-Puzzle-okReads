@@ -11,6 +11,7 @@ import { FormBuilder } from '@angular/forms';
 import { Book } from '@tmo/shared/models';
 import { Observable, Subject } from 'rxjs';
 import { map, debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'tmo-book-search',
