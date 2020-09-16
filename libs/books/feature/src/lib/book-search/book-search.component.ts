@@ -9,7 +9,7 @@ import {
 } from '@tmo/books/data-access';
 import { FormBuilder } from '@angular/forms';
 import { Book } from '@tmo/shared/models';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { map, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
@@ -18,7 +18,7 @@ import { map, debounceTime, distinctUntilChanged } from 'rxjs/operators';
   styleUrls: ['./book-search.component.scss'],
 })
 export class BookSearchComponent implements OnInit, OnDestroy {
-  books: any;
+  books: Observable<ReadingListBook[]>;
   searchTextChanged = new Subject<string>();
 
   searchForm = this.fb.group({
@@ -68,7 +68,7 @@ export class BookSearchComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy() {
     if (this.books) {
-      this.books.unsubscribe();
+      this.store.dispatch(clearSearch());
     }
   }
 
