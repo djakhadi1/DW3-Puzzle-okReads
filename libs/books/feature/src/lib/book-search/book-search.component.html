@@ -18,11 +18,11 @@
   <div class="book-grid">
     <div class="book" data-testing="book-item" *ngFor="let b of books | async">
       <div class="book--title">
-        {{ b.title }}
+        <div role="heading" aria-level="1">{{ b.title }}</div>
       </div>
       <div class="book--content">
         <div class="book--content--cover" role="img" aria-label="cover page">
-          <img src="{{ b.coverUrl }}" alt="Book cover URL" />
+          <img src="{{ b.coverUrl }}" alt="Book image" />
         </div>
         <div class="book--content--info">
           <div><strong>Author:</strong> {{ b.authors.join(',') }}</div>

@@ -10,6 +10,7 @@ import {
 import { FormBuilder } from '@angular/forms';
 import { Book } from '@tmo/shared/models';
 import { Observable } from 'rxjs';
+import { BooksPartialState } from '../../../../data-access/src/lib/+state/books.reducer';
 
 @Component({
   selector: 'tmo-book-search',
@@ -24,7 +25,7 @@ export class BookSearchComponent implements OnInit, OnDestroy {
   });
 
   constructor(
-    private readonly store: Store,
+    private readonly store: Store<BooksPartialState>,
     private readonly fb: FormBuilder
   ) {}
 
