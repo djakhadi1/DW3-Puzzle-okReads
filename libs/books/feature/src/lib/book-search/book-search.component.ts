@@ -10,8 +10,8 @@ import {
 import { FormBuilder } from '@angular/forms';
 import { Book } from '@tmo/shared/models';
 import { Observable, Subject } from 'rxjs';
-import { map, debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { map, debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
+
 
 @Component({
   selector: 'tmo-book-search',
@@ -29,7 +29,7 @@ export class BookSearchComponent implements OnInit, OnDestroy {
   constructor(
     private readonly store: Store,
     private readonly fb: FormBuilder
-  ) {}
+  ) { }
 
   get searchTerm(): string {
     return this.searchForm.value.term;
@@ -38,10 +38,9 @@ export class BookSearchComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.books = this.store.select(getAllBooks);
     this.searchTextChanged
-      .pipe(debounceTime(500), distinctUntilChanged())
+      .pipe(debounceTime(500), filter(res => res.length > 2), distinctUntilChanged())
       .subscribe((searchstring) => {
-        this.searchForm.controls.term.setValue(searchstring);
-        this.searchBooks();
+        this.setSearchText(searchstring);
       });
   }
 
@@ -55,9 +54,8 @@ export class BookSearchComponent implements OnInit, OnDestroy {
     this.store.dispatch(addToReadingList({ book }));
   }
 
-  searchExample() {
-    this.searchForm.controls.term.setValue('javascript');
-    this.searchBooks();
+  setSearchText(searchstring) {
+    this.searchForm.controls.term.setValue(searchstring);
   }
 
   searchBooks() {
@@ -73,7 +71,7 @@ export class BookSearchComponent implements OnInit, OnDestroy {
     }
   }
 
-  AutoSearch(searchCriteria: any) {
+  autoSearch(searchCriteria: any) {
     this.searchTextChanged.next(searchCriteria.target.value);
   }
 }
