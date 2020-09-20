@@ -5,6 +5,7 @@ import { of } from 'rxjs';
 import { catchError, concatMap, exhaustMap, map } from 'rxjs/operators';
 import { ReadingListItem } from '@tmo/shared/models';
 import * as ReadingListActions from './reading-list.actions';
+import { AppConstants } from '../../constants/appconstants';
 
 @Injectable()
 export class ReadingListEffects implements OnInitEffects {
@@ -13,14 +14,14 @@ export class ReadingListEffects implements OnInitEffects {
       ofType(ReadingListActions.init),
       exhaustMap(() =>
         this.http
-          .get<ReadingListItem[]>('/api/reading-list')
+          .get<ReadingListItem[]>(AppConstants.readingApi)
           .pipe(
-            map(data =>
+            map((data) =>
               ReadingListActions.loadReadingListSuccess({ list: data })
             )
           )
       ),
-      catchError(error =>
+      catchError((error) =>
         of(ReadingListActions.loadReadingListError({ error }))
       )
     )
@@ -30,7 +31,7 @@ export class ReadingListEffects implements OnInitEffects {
     this.actions$.pipe(
       ofType(ReadingListActions.addToReadingList),
       concatMap(({ book }) =>
-        this.http.post('/api/reading-list', book).pipe(
+        this.http.post(AppConstants.readingApi, book).pipe(
           map(() => ReadingListActions.confirmedAddToReadingList({ book })),
           catchError(() =>
             of(ReadingListActions.failedAddToReadingList({ book }))
@@ -44,7 +45,7 @@ export class ReadingListEffects implements OnInitEffects {
     this.actions$.pipe(
       ofType(ReadingListActions.removeFromReadingList),
       concatMap(({ item }) =>
-        this.http.delete(`/api/reading-list/${item.bookId}`).pipe(
+        this.http.delete(`${AppConstants.readingApi}/${item.bookId}`).pipe(
           map(() =>
             ReadingListActions.confirmedRemoveFromReadingList({ item })
           ),
