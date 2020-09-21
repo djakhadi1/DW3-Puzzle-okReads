@@ -17,7 +17,7 @@ export class ReadingListService {
       const { id, ...rest } = b;
       list.push({
         bookId: id,
-        ...rest,
+        ...rest
       });
       return list;
     });
@@ -25,10 +25,10 @@ export class ReadingListService {
 
   async removeBook(id: string): Promise<void> {
     this.storage.update((list) => {
-      return list.filter((x) => x.bookId !== id);
+      return list.filter(x => x.bookId !== id);
     });
   }
-  async FinishBook(id: string): Promise<void> {
+  async finishBook(id: string): Promise<void> {
     this.storage.update((list) => {
       for (const item of list) {
         if (item.bookId === id) {

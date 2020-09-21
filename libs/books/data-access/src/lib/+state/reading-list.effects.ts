@@ -57,9 +57,9 @@ export class ReadingListEffects implements OnInitEffects {
     )
   );
 
-  markAsFinsih$ = createEffect(() =>
+  markAsFinish$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(ReadingListActions.markedAsFinished),
+      ofType(ReadingListActions.markAsFinished),
       concatMap(({ item }) =>
         this.http
           .put(`${AppConstants.readingApi}/${item['bookId']}/finished`, item)

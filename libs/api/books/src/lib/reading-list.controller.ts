@@ -25,7 +25,7 @@ export class ReadingListController {
   }
   @Put('/reading-list/:id/finished')
   async finshReadingList(@Param() params) {
-    return await this.readingList.FinishBook(params.id);
+    return await this.readingList.finishBook(params.id);
   }
 
   @Delete('/reading-list/:id')

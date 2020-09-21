@@ -5,7 +5,7 @@ import {
   READING_LIST_FEATURE_KEY,
   readingListAdapter,
   ReadingListPartialState,
-  State,
+  State
 } from './reading-list.reducer';
 import { Book, ReadingListItem } from '@tmo/shared/models';
 
@@ -17,7 +17,7 @@ export const getReadingListState = createFeatureSelector<
 const {
   selectEntities,
   selectAll,
-  selectTotal,
+  selectTotal
 } = readingListAdapter.getSelectors();
 
 export const getReadingListEntities = createSelector(
@@ -39,7 +39,7 @@ export const getAllBooks = createSelector<
   return books.map((b) => ({
     ...b,
     isAdded: Boolean(entities[b.id]),
-    isFinished: entities[b.id] ? entities[b.id].finished : false,
+    isFinished: Boolean(entities[b.id]) ? Boolean(entities[b.id].finished) : false,
   }));
 });
 
