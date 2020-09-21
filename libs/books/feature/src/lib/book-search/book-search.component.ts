@@ -2,13 +2,17 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
   addToReadingList,
+  UndoAddToReadingList,
   clearSearch,
   getAllBooks,
   ReadingListBook,
+  UndoremoveFromReadingList,
   searchBooks,
+  init,
 } from '@tmo/books/data-access';
 import { FormBuilder } from '@angular/forms';
 import { Book } from '@tmo/shared/models';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 import { BooksPartialState } from '../../../../data-access/src/lib/+state/books.reducer';
 
@@ -45,6 +49,7 @@ export class BookSearchComponent implements OnInit, OnDestroy {
 
   addBookToReadingList(book: Book) {
     this.store.dispatch(addToReadingList({ book }));
+    this.store.dispatch(init());
   }
 
   searchExample() {
